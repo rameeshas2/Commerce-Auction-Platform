@@ -4,6 +4,7 @@
 ![Django](https://img.shields.io/badge/Django-Framework-092E20?style=for-the-badge&logo=django)
 ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple?style=for-the-badge&logo=bootstrap)
+![Selenium](https://img.shields.io/badge/Selenium-WebDriver-43B02A?style=for-the-badge&logo=selenium)
 
 An eBay-inspired online auction platform built with **Django** as part of **CS50's Web Programming with Python and JavaScript (Project 2: Commerce)**. The application allows users to create auction listings, place bids, manage personal watchlists, browse categories, search listings, and participate in online auctions through a modern, responsive interface.
 
@@ -99,6 +100,8 @@ Listing owners can:
 - CSS3
 - Bootstrap
 - JavaScript
+- Selenium WebDriver
+- Pytest
 
 ---
 
@@ -318,60 +321,77 @@ Search auction listings by keywords.
 
 ---
 
-# 🧪 Testing
+# 🧪 Automated Testing
 
-The project includes automated tests using **pytest**.
+The project includes automated end-to-end testing using **Selenium WebDriver** and **Pytest** to verify the functionality of key features through browser-based interactions.
 
-Available test files:
+### Test Coverage
 
-- User Login
-- Create Listing
-- Bidding Logic
-- Watchlist Functionality
+- ✅ User Registration & Login
+- ✅ Create Auction Listing
+- ✅ Bidding Validation
+- ✅ Watchlist Management
+- ✅ Form Validation
+- ✅ User Navigation & Authentication
 
-Run tests:
+### Test Files
+
+```text
+tests/
+├── conftest.py
+├── test_login.py
+├── test_create_listing.py
+├── test_bidding.py
+└── test_watchlist.py
+```
+
+### Running the Tests
+
+Install the testing dependencies:
+
+```bash
+pip install selenium pytest webdriver-manager
+```
+
+Run all tests:
 
 ```bash
 pytest
 ```
 
----
+Or execute an individual test:
 
-# 📸 Screenshots
-
-Create a folder named **screenshots/** and add application screenshots.
-
-Example:
-
-```text
-screenshots/
-├── home.png
-├── listing.png
-├── create-listing.png
-├── watchlist.png
-├── categories.png
-├── search.png
-└── bidding.png
+```bash
+pytest tests/test_login.py
+pytest tests/test_create_listing.py
+pytest tests/test_bidding.py
+pytest tests/test_watchlist.py
 ```
 
-Then display them like:
+The automated tests simulate real user interactions within a web browser to verify application behavior, ensuring that authentication, bidding, listing creation, and watchlist functionality work as expected.
+
+
 
 ```markdown
 ## Home Page
 
-![Home](screenshots/home.png)
+<img width="1918" height="884" alt="image" src="https://github.com/user-attachments/assets/d8418ff0-f85d-49d3-b596-591a16e2fa6d" />
+
 
 ## Listing Page
 
-![Listing](screenshots/listing.png)
+<img width="1360" height="870" alt="image" src="https://github.com/user-attachments/assets/87df41a1-cd9f-4a6d-a763-8c6939ef92ea" />
+
 
 ## Watchlist
 
-![Watchlist](screenshots/watchlist.png)
+<img width="1884" height="872" alt="image" src="https://github.com/user-attachments/assets/98ef4ffd-b192-464f-848d-b1a43ccd179d" />
+
 
 ## Categories
 
-![Categories](screenshots/categories.png)
+<img width="1902" height="871" alt="image" src="https://github.com/user-attachments/assets/32b26947-7ada-4842-8260-a72020843787" />
+
 ```
 
 ---
@@ -383,16 +403,15 @@ This project demonstrates practical experience with:
 - Django Framework
 - Django ORM
 - SQLite Database
-- Authentication & Authorization
+- User Authentication & Authorization
 - CRUD Operations
 - Relational Database Design
 - Model Relationships
-- Form Handling
-- Validation Logic
+- Form Handling & Validation
+- Search & Category Filtering
 - Responsive Web Design
-- Search & Filtering
-- Automated Testing with Pytest
-
+- End-to-End Testing with Selenium WebDriver
+- Automated Testing using Pytest
 ---
 
 # 🎓 Course Information
