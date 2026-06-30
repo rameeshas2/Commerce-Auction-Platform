@@ -1,0 +1,156 @@
+{% extends "auctions/layout.html" %}
+{% load static %} {# Necessary if you use any static images, though not directly in this form template #}
+
+{% block title %}Create Listing{% endblock %}
+
+{% block section_heading %}Create a New Auction Listing{% endblock %}
+
+{% block body %}
+    <div class="form-container"> {# Wrapper for consistent form styling #}
+        {# Display non-field errors if any #}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                <p><strong>Please correct the following errors:</strong></p>
+                <ul>
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="custom-form"> {# Added enctype for file uploads #}
+            {% csrf_token %}
+
+            {# Title Field #}
+            <div class="mb-3">
+                <label for="{{ form.title.id_for_label }}" class="form-label">{{ form.title.label }}</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="form-text text-danger">
+                        {% for error in form.title.errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Description Field #}
+            <div class="mb-3">
+                <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="form-text text-danger">
+                        {% for error in form.description.errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Starting Bid Field #}
+            <div class="mb-3">
+                <label for="{{ form.starting_bid.id_for_label }}" class="form-label">{{ form.starting_bid.label }}</label>
+                {{ form.starting_bid }}
+                {% if form.starting_bid.errors %}
+                    <div class="form-text text-danger">
+                        {% for error in form.starting_bid.errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Image URL Field (or switch to ImageField if you prefer file uploads) #}
+            {# For simplicity, sticking to URL as per original, but recommend ImageField #}
+            <div class="mb-3">
+                <label for="{{ form.image_url.id_for_label }}" class="form-label">{{ form.image_url.label }}</label>
+                {{ form.image_url }}
+                <div class="form-text text-muted">Provide a direct URL to the image (e.g., from Imgur, Cloudinary).</div>
+                {% if form.image_url.errors %}
+                    <div class="form-text text-danger">
+                        {% for error in form.image_url.errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Category Field #}
+            <div class="mb-3">
+                <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label }}</label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <div class="form-text text-danger">
+                        {% for error in form.category.errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Subcategory Field (dynamic) #}
+            <div class="mb-3">
+                <label for="id_subcategory" class="form-label">Subcategory:</label>
+                <select id="id_subcategory" name="subcategory" class="form-select">
+                    <option value="">---------</option>
+                    {# Iterate over all subcategories, but use data-category for filtering #}
+                    {% for sub in subcategories %}
+                        <option value="{{ sub.id }}" data-category="{{ sub.category.id }}">{{ sub.name }}</option>
+                    {% endfor %}
+                </select>
+                {# Add a placeholder for Django form errors for subcategory #}
+                {# This assumes 'subcategory' is a field on your form, even if rendered manually #}
+                {% if form.subcategory.errors %}
+                    <div class="form-text text-danger">
+                        {% for error in form.subcategory.errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Submit Button #}
+            <button type="submit" class="btn btn-primary btn-lg">Create Listing</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const categorySelect = document.getElementById("id_category");
+            const subcategorySelect = document.getElementById("id_subcategory");
+            // Store all subcategory options initially
+            const allSubcategoryOptions = Array.from(subcategorySelect.options);
+
+            function filterSubcategories() {
+                const selectedCategoryId = categorySelect.value;
+                let subcategoryFound = false; // Flag to check if the currently selected subcategory is valid
+
+                // Clear current options except the placeholder
+                subcategorySelect.innerHTML = '<option value="">---------</option>';
+
+                allSubcategoryOptions.forEach(option => {
+                    if (!option.value) return; // Skip the '---------' option from the original list
+
+                    const optionCategoryId = option.getAttribute("data-category");
+
+                    if (selectedCategoryId === "" || optionCategoryId === selectedCategoryId) {
+                        const clonedOption = option.cloneNode(true);
+                        subcategorySelect.appendChild(clonedOption);
+
+                        // If this option was the one previously selected, mark it found
+                        if (clonedOption.value === subcategorySelect.dataset.previousValue) {
+                            subcategoryFound = true;
+                        }
+                    }
+                });
+
+                // If the previously selected subcategory is no longer available, reset
+                if (!subcategoryFound && subcategorySelect.dataset.previousValue) {
+                    subcategorySelect.value = ""; // Reset to placeholder
+                } else if (subcategorySelect.dataset.previousValue) {
+                    // Try to re-select the previous value if it's still available
+                    subcategorySelect.value = subcategorySelect.dataset.previousValue;
+                }
+            }
+
+            // Store the initial selected subcategory to try and restore it after filtering
+            if (subcategorySelect.value) {
+                subcategorySelect.dataset.previousValue = subcategorySelect.value;
+            }
+
+            categorySelect.addEventListener("change", filterSubcategories);
+
+            // Run on initial load to set up the correct subcategories
+            filterSubcategories();
+        });
+    </script>
+{% endblock %}

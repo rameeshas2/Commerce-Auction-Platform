@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block title %}
+    Search Results
+{% endblock %}
+
+{% block body %}
+    <div class="listing-page-container"> {# Reusing this container for consistent page padding and max-width #}
+        <h2 class="section-heading mb-4">Search Results for "{{ query }}"</h2>
+
+        {% if results %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"> {# Responsive grid for cards #}
+                {% for listing in results %}
+                    <div class="col"> {# Each result will be in its own column #}
+                        <a href="{% url 'listing' listing.id %}" class="card-link-wrapper"> {# Wrapper for the entire card to be clickable #}
+                            <div class="custom-card listing-card h-100"> {# h-100 for equal height cards in a row #}
+                                <div class="image-wrapper"> {# Reusing image-wrapper for consistent aspect ratio #}
+                                    {% if listing.image_url %}
+                                        <img src="{{ listing.image_url }}" alt="{{ listing.title }}" class="card-image">
+                                    {% else %}
+                                        <img src="{% static 'auctions/no_image_listing.png' %}" alt="No image available" class="card-image placeholder">
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title listing-title">{{ listing.title }}</h5>
+                                    <p class="card-text listing-description-short">{{ listing.description|truncatechars:70 }}</p> {# Shorter truncate for card view #}
+                                    <p class="card-text current-price-small">Current Price: <strong>${{ listing.current_price|floatformat:2 }}</strong></p>
+                                    <p class="card-text listing-category-tag">
+                                        Category:
+                                        {% if listing.category %}
+                                            <span>{{ listing.category.name }}</span>
+                                        {% else %}
+                                            <span class="text-muted">No Category</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="card-text listing-status">
+                                        {% if listing.active %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Closed</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center my-5 p-4 custom-alert-lg" role="alert"> {# Larger, centered alert #}
+                <i class="bi bi-info-circle-fill me-2"></i> {# Optional: Bootstrap Icons #}
+                <strong>No results found for "{{ query }}".</strong>
+                <p class="mb-0 mt-2">Try adjusting your search terms or Browse our categories.</p>
+            </div>
+        {% endif %}
+
+        <div class="text-center mt-5"> {# Centered button with more top margin #}
+            <a href="{% url 'index' %}" class="btn btn-secondary btn-lg">Back to Active Listings</a> {# Larger button #}
+        </div>
+    </div>
+{% endblock %}

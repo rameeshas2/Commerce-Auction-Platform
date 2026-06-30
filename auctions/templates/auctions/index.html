@@ -1,0 +1,62 @@
+{% extends "auctions/layout.html" %}
+{% load static %} {# Load static files for the default placeholder image #}
+
+{% block title %}
+    Active Listings
+{% endblock %}
+
+{% block section_heading %}
+    Active Listings
+{% endblock %}
+
+{% block body %}
+    {% if listings %}
+        <div class="listings-grid"> {# Use our custom grid class #}
+            {% for listing in listings %}
+                <div class="listing-card"> {# Use our custom card class #}
+                    <div class="listing-image-wrapper">
+                        {% if listing.image_url %}
+                            <img src="{{ listing.image_url }}" alt="{{ listing.title }}" class="listing-image">
+                        {% else %}
+                            {# Use a static placeholder image for consistency #}
+                            <img src="{% static 'auctions/no_image_listing.png' %}" alt="No image available" class="listing-image placeholder">
+                        {% endif %}
+                    </div>
+
+                    <div class="listing-details"> {# Group details for consistent styling #}
+                        <h5 class="listing-title">
+                            <a href="{% url 'listing' listing.id %}" class="stretched-link">{{ listing.title }}</a>
+                        </h5>
+                        <p class="listing-price">
+                            Current Bid:
+                            <strong>
+                                {% if listing.bids.all.count > 0 %}
+                                    ${{ listing.current_price|floatformat:2 }}
+                                {% else %}
+                                    ${{ listing.starting_bid|floatformat:2 }}
+                                {% endif %}
+                            </strong>
+                        </p>
+                        <p class="listing-description">
+                            {{ listing.description|truncatewords:15 }} {# Using truncatewords for more natural breaks #}
+                        </p>
+                        <div class="listing-meta">
+                            <span class="listing-seller">By {{ listing.owner.username }}</span>
+                            <span class="listing-date">Created on {{ listing.created_at|date:"M d, Y" }}</span>
+                            {% if listing.is_active == False %} {# Assuming a field `is_active` in your Listing model #}
+                                <span class="listing-status closed"><i class="fas fa-lock me-1"></i> Closed</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center py-4" role="alert">
+            <h4 class="alert-heading">No Active Listings Available!</h4>
+            <p>It looks like there are no auction items up for bid right now.</p>
+            <hr>
+            <p class="mb-0">Why not be the first? <a href="{% url 'create' %}" class="alert-link">Create a new listing</a> today!</p>
+        </div>
+    {% endif %}
+{% endblock %}

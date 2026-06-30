@@ -1,0 +1,72 @@
+{% extends "auctions/layout.html" %}
+{% load static %} {# Load static files for the default placeholder image #}
+
+
+{% block title %}
+    {% if parent_category %}
+        Listings in {{ parent_category.name }} > {{ subcategory.name }}
+    {% else %}
+        Listings in {{ category.name }}
+    {% endif %}
+{% endblock %}
+
+{% block section_heading %}
+    {% if parent_category %}
+        Listings in {{ parent_category.name }} > {{ subcategory.name }}
+    {% else %}
+        Listings in {{ category.name }}
+    {% endif %}
+{% endblock %}
+
+
+{% block body %}
+    {% if listings %}
+        <div class="listings-grid"> {# Use a custom class for consistency with our CSS grid #}
+            {% for listing in listings %}
+                <div class="listing-card"> {# Custom class for consistency #}
+                    <div class="listing-image-wrapper">
+                        {% if listing.image_url %}
+                            <img src="{{ listing.image_url }}" alt="{{ listing.title }}" class="listing-image">
+                        {% else %}
+                            {# Use a static placeholder image for consistency #}
+                            <img src="{% static 'auctions/no_image_listing.png' %}" alt="No image available" class="listing-image placeholder">
+                        {% endif %}
+                    </div>
+
+                    <div class="listing-details"> {# Group details for flexbox #}
+                        <h5 class="listing-title">
+                            <a href="{% url 'listing' listing.id %}" class="stretched-link">{{ listing.title }}</a>
+                        </h5>
+                        <p class="listing-price">
+                            Current Bid:
+                            <strong>
+                                {% if listing.bids.all.count > 0 %}
+                                    ${{ listing.current_price|floatformat:2 }}
+                                {% else %}
+                                    ${{ listing.starting_bid|floatformat:2 }}
+                                {% endif %}
+                            </strong>
+                        </p>
+                        <p class="listing-description">
+                            {{ listing.description|truncatewords:15 }}
+                        </p>
+                        <div class="listing-meta">
+                            <span class="listing-seller">By {{ listing.owner.username }}</span>
+                            <span class="listing-date">Created on {{ listing.created_at|date:"M d, Y" }}</span>
+                            {% if listing.is_active == False %}
+                                <span class="listing-status closed"><i class="fas fa-lock me-1"></i> Closed</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center py-4" role="alert">
+            <h4 class="alert-heading">No Listings Found!</h4>
+            <p>There are no active listings in the "{{ subcategory.name }}" category at the moment.</p>
+            <hr>
+            <p class="mb-0">Check back later or <a href="{% url 'create' %}" class="alert-link">create a new listing</a>!</p>
+        </div>
+    {% endif %}
+{% endblock %}

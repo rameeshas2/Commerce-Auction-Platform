@@ -1,0 +1,50 @@
+{% extends "auctions/layout.html" %}
+{% load static %} {# Good practice to include if you might use static files later #}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+
+<div class="auth-page-container"> {# New container for login/register pages #}
+    <div class="custom-card auth-card"> {# Reusing custom-card class for consistent styling #}
+        <div class="card-header auth-header"> {# Custom header for auth cards #}
+            <h2 class="section-heading-small">Create Your Account</h2> {# More descriptive heading #}
+        </div>
+        <div class="card-body auth-body"> {# Custom body for auth cards #}
+            {% if message %}
+                <div class="alert alert-danger mb-3" role="alert"> {# Use Bootstrap alert-danger for error messages #}
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3"> {# Replaced form-group with mb-3 for Bootstrap 5 spacing #}
+                    <label for="username" class="form-label visually-hidden">Username</label> {# Added label for accessibility, visually hidden #}
+                    <input autofocus class="form-control" type="text" id="username" name="username" placeholder="Username" aria-label="Username" required> {# Added id, aria-label, required #}
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label visually-hidden">Email Address</label>
+                    <input class="form-control" type="email" id="email" name="email" placeholder="Email Address" aria-label="Email Address" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label visually-hidden">Password</label>
+                    <input class="form-control" type="password" id="password" name="password" placeholder="Password" aria-label="Password" required>
+                </div>
+                <div class="mb-4"> {# Increased margin-bottom for separation before button #}
+                    <label for="confirmation" class="form-label visually-hidden">Confirm Password</label>
+                    <input class="form-control" type="password" id="confirmation" name="confirmation" placeholder="Confirm Password" aria-label="Confirm Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button> {# Changed input type=submit to button, added w-100 for full width #}
+            </form>
+
+            <div class="text-center mt-4"> {# Centered the login link #}
+                <p class="auth-redirect-text">Already have an account? <a href="{% url 'login' %}" class="link-primary">Log In here.</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

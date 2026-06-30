@@ -1,0 +1,2070 @@
+/* --- Root Variables for Consistency --- */
+:root {
+    --font-family-inter: 'Inter', sans-serif;
+    --color-primary: #007bff; /* Standard Bootstrap Blue */
+    --color-primary-hover: #0056b3;
+    --color-danger: #dc3545; /* Standard Bootstrap Red */
+    --color-danger-hover: #c82333;
+
+    --color-text-dark: #333;
+    --color-text-medium: #555;
+    --color-text-light: #6c757d; /* Muted grey for icons/placeholders */
+    --color-text-placeholder: #888;
+
+    --color-bg-light: #e9eff5; /* Main background from image */
+    --color-bg-white: #ffffff; /* White backgrounds for header, sidebar, cards */
+    --color-bg-light-grey: #f8f8f8; /* Header bottom, search input bg */
+    --color-bg-hover: #f0f4f8; /* Light hover background for list items */
+
+    --color-border-light: #f0f0f0; /* Very light separators */
+    --color-border-medium: #ced4da; /* Input borders */
+    --color-border-subtle: #eee; /* Card borders */
+    --color-border-focus: #80b3ff; /* Focus border for inputs */
+
+    --shadow-subtle: 0 2px 5px rgba(0,0,0,0.05); /* Header, sidebar */
+    --shadow-card: 0 4px 10px rgba(0,0,0,0.05); /* Cards */
+    --shadow-card-hover: 0 6px 15px rgba(0,0,0,0.08);
+
+    --border-radius-sm: 5px; /* Buttons, inputs */
+    --border-radius-md: 8px; /* Cards */
+
+    --padding-xs: 5px;
+    --padding-sm: 8px;
+    --padding-md: 10px;
+    --padding-lg: 15px;
+    --padding-xl: 20px;
+
+    --spacing-xs: 5px;
+    --spacing-sm: 8px;
+    --spacing-md: 10px;
+    --spacing-lg: 15px;
+    --spacing-xl: 20px;
+    --spacing-xxl: 25px;
+}
+
+/* --- Base Styling --- */
+body {
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-family-inter);
+    background-color: var(--color-bg-light);
+    color: var(--color-text-dark);
+    line-height: 1.6;
+}
+
+/* --- App Header --- */
+.app-header {
+    width: 100%;
+    background-color: var(--color-bg-white);
+    box-shadow: var(--shadow-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Header Top Row (Logo, Search, Auth Links) */
+.header-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-md) var(--padding-xl);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.logo {
+    height: 40px;
+    margin-right: var(--spacing-xl);
+}
+
+/* Search Bar */
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+    max-width: 350px;
+    margin-right: auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--padding-sm) 35px var(--padding-sm) var(--padding-lg); /* Padding for text and icon */
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    outline: none;
+    background-color: var(--color-bg-light-grey);
+    box-shadow: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: var(--color-text-placeholder);
+}
+
+.search-input:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Standard Bootstrap focus ring */
+}
+
+.search-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1; /* Ensures icon is vertically centered */
+}
+
+.search-icon {
+    height: 16px;
+    color: var(--color-text-light);
+    transition: color 0.3s ease;
+}
+
+.search-icon:hover {
+    color: var(--color-text-dark);
+}
+
+/* Auth Links */
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    font-size: 14px;
+}
+
+.auth-links span {
+    color: var(--color-text-medium);
+    white-space: nowrap;
+}
+
+.auth-links .username strong {
+    color: var(--color-text-dark);
+    font-weight: 600;
+}
+
+/* --- Generic Button Styles (used in Header and elsewhere) --- */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: var(--border-radius-sm);
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: none; /* Ensure no default Bootstrap shadow */
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-bg-white);
+    border: 1px solid var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--color-primary);
+    color: var(--color-bg-white);
+}
+
+.btn-outline-danger {
+    background-color: transparent;
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--color-danger);
+    color: var(--color-bg-white);
+}
+
+/* Header Bottom Row (Category Toggle & Main Nav Links) */
+.header-bottom-row {
+    display: flex;
+    align-items: center;
+    padding: var(--padding-sm) var(--padding-xl);
+    background-color: var(--color-bg-light-grey);
+    border-top: 1px solid var(--color-border-light);
+}
+
+/* "All Categories" button (mobile/tablet sidebar toggle) */
+.btn-category-toggle {
+    background-color: transparent;
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--border-radius-sm);
+    padding: 6px 12px;
+    font-weight: 500;
+    margin-right: var(--spacing-xl);
+    /* `d-lg-none` Bootstrap class handles display on large screens */
+}
+
+.btn-category-toggle:hover {
+    background-color: var(--color-bg-light); /* Matches body background on hover */
+    color: var(--color-text-dark);
+    border-color: #a0a0a0; /* Slightly darker border on hover */
+}
+
+/* Main Navigation Links */
+.main-nav {
+    display: flex;
+    gap: var(--spacing-xxl);
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    font-size: 15px;
+    padding: var(--padding-xs) 0;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.main-nav a:hover,
+.main-nav a.active { /* Added active state */
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+/* --- Main Content Area --- */
+.app-content {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.section-heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: var(--spacing-xl);
+    padding-top: var(--padding-xl);
+    padding-left: var(--padding-xl); /* Matches container-fluid padding */
+}
+
+/* --- Sidebar Specifics --- */
+.sidebar-wrapper {
+    background-color: var(--color-bg-white);
+    padding: var(--padding-xl) var(--padding-lg);
+    min-height: calc(100vh - 80px); /* Adjust based on header height, approx 80px */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.02); /* Subtle shadow for depth */
+    border-right: 1px solid var(--color-border-light);
+}
+
+/* Bootstrap Offcanvas overrides for sidebar on mobile */
+.offcanvas-start {
+    background-color: var(--color-bg-white);
+    /* Ensure offcanvas matches sidebar style */
+    padding: var(--padding-xl) var(--padding-lg); /* Match sidebar padding */
+}
+.offcanvas-header {
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+}
+.offcanvas-title {
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+.offcanvas-body {
+    padding-left: 0; /* Remove default offcanvas-body padding */
+    padding-right: 0;
+}
+
+.sidebar-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: var(--spacing-lg);
+    padding-left: 0;
+}
+
+.list-group-item {
+    border-radius: var(--border-radius-sm) !important;
+    margin-bottom: var(--spacing-xs);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    background-color: transparent;
+    border: none;
+    color: #444; /* Slightly lighter than dark text for category links */
+    font-weight: 500;
+    padding: var(--padding-sm) var(--padding-md);
+}
+
+.list-group-item:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text-dark); /* Darken text slightly on hover */
+}
+
+.list-group-item.active {
+    background-color: var(--color-primary) !important;
+    color: var(--color-bg-white) !important;
+}
+
+.list-group-flush .list-group-item {
+    border: none; /* Ensure no borders */
+    border-radius: 0; /* Remove border-radius for flush items */
+    padding-left: 25px; /* Indent subcategories */
+    background-color: var(--color-bg-white); /* White background for subcategories */
+}
+
+.list-group-flush .list-group-item a {
+    color: var(--color-text-medium);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.list-group-flush .list-group-item a:hover {
+    color: var(--color-primary);
+}
+
+/* Caret for categories */
+.caret {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--color-text-light); /* Muted caret color */
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: var(--spacing-xs);
+    transition: transform 0.3s ease;
+}
+
+.list-group-item[aria-expanded="true"] .caret {
+    transform: rotate(180deg);
+}
+
+/* --- Card Styles (general for content area) --- */
+.card {
+    background-color: var(--color-bg-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin: var(--spacing-lg); /* Consistent margin around cards */
+    max-width: 100%;
+    transition: box-shadow 0.2s ease;
+    border: 1px solid var(--color-border-subtle);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-card-hover);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 180px;
+    object-fit: contain; /* Ensures image is fully visible */
+    background-color: var(--color-bg-light-grey);
+    padding: var(--padding-md);
+    border-bottom: 1px solid var(--color-border-subtle);
+    border-top-left-radius: var(--border-radius-md);
+    border-top-right-radius: var(--border-radius-md);
+}
+
+.card-body {
+    padding: var(--padding-lg);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-dark);
+}
+
+.card-text {
+    font-size: 13px;
+    color: var(--color-text-medium);
+    line-height: 1.5;
+}
+
+/* --- Form Elements --- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: var(--padding-sm) var(--padding-md);
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    background-color: var(--color-bg-white);
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    outline: none; /* Remove default browser outline */
+}
+
+form label {
+    font-weight: 500;
+    display: block;
+    color: var(--color-text-dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* --- Footer --- */
+.footer {
+    text-align: center;
+    padding: var(--padding-xl);
+    background-color: var(--color-bg-light-grey);
+    color: var(--color-text-medium);
+    margin-top: 40px;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.02);
+    /* No border-radius on footer as it spans full width */
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 991.98px) { /* Medium devices and below (Bootstrap's `lg` breakpoint) */
+    .header-top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--padding-md) var(--padding-lg);
+        gap: var(--spacing-md);
+    }
+    .logo {
+        margin-bottom: var(--spacing-sm);
+        margin-right: 0; /* Reset margin */
+    }
+    .search-wrapper {
+        width: 100%;
+        max-width: none;
+        margin-right: 0;
+    }
+    .auth-links {
+        width: 100%;
+        justify-content: center; /* Center auth links on mobile */
+        margin-top: var(--spacing-sm);
+        gap: var(--spacing-md);
+    }
+    
+    .header-bottom-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--padding-sm) var(--padding-lg);
+        gap: var(--spacing-sm);
+    }
+    .btn-category-toggle {
+        display: block; /* Show toggle button on smaller screens */
+        width: 100%;
+        margin-right: 0;
+    }
+    .main-nav {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        width: 100%;
+        margin-left: 0;
+    }
+    .main-nav a {
+        text-align: center;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--color-border-light); /* Add separator for stacked links */
+    }
+    .main-nav a:last-child {
+        border-bottom: none; /* Remove border from last link */
+    }
+
+    /* Sidebar Offcanvas behavior */
+    .sidebar-wrapper {
+        display: none; /* Hide default sidebar on small screens */
+    }
+    .main-content-area {
+        padding: var(--padding-lg); /* Consistent padding for main content */
+    }
+    .section-heading {
+        padding-left: 0; /* No left padding on small screens */
+        padding-top: var(--padding-lg); /* Ensure heading spacing from top */
+    }
+    .card {
+        margin: var(--spacing-md) 0; /* Reduced margin for smaller screens */
+    }
+}
+
+@media (max-width: 767.98px) { /* Small devices and below (Bootstrap's `md` breakpoint) */
+    .header-top-row,
+    .header-bottom-row {
+        padding-left: var(--padding-md);
+        padding-right: var(--padding-md);
+    }
+
+    .main-nav a {
+        font-size: 14px; /* Slightly smaller font for nav links */
+    }
+    .auth-links .username {
+        display: none; /* Hide username on very small screens to save space */
+    }
+}
+
+/* --- Categories Page Specific Styles --- */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjusted min-width for image space */
+    gap: var(--spacing-xl);
+    padding: var(--padding-lg);
+}
+
+.category-card {
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.category-card .card-header {
+    background-color: var(--color-bg-light-grey);
+    padding: var(--padding-lg);
+    border-bottom: 1px solid var(--color-border-subtle);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.category-icon {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+}
+
+.category-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text-dark);
+}
+
+.category-card .card-body {
+    padding: var(--padding-lg);
+    flex-grow: 1;
+}
+
+/* New styles for subcategory grid with images */
+.subcategory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Grid for subcategories */
+    gap: var(--spacing-md); /* Space between subcategory items */
+}
+
+.subcategory-item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: var(--color-text-dark);
+    padding: var(--padding-sm);
+    border-radius: var(--border-radius-sm);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.subcategory-item-link:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.subcategory-image-wrapper {
+    width: 80px; /* Fixed width for image */
+    height: 80px; /* Fixed height for image */
+    overflow: hidden;
+    border-radius: var(--border-radius-sm); /* Slightly rounded corners for images */
+    margin-bottom: var(--spacing-sm);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-bg-light-grey); /* Background for images */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subcategory-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Contain the image within its wrapper */
+}
+
+.subcategory-item-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: inherit; /* Inherit color from parent link */
+    line-height: 1.2; /* Adjust line height for better readability */
+}
+
+.no-subcategories-msg {
+    color: var(--color-text-medium);
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: var(--padding-md) 0;
+}
+
+/* Responsive adjustments for categories page */
+@media (max-width: 767.98px) { /* Small devices and below */
+    .category-grid {
+        grid-template-columns: 1fr;
+        padding: var(--padding-md);
+    }
+
+    .category-card .card-header {
+        padding: var(--padding-md);
+    }
+
+    .category-name {
+        font-size: 1.2rem;
+    }
+
+    .category-card .card-body {
+        padding: var(--padding-md);
+    }
+
+    .subcategory-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller items on mobile */
+    }
+
+    .subcategory-image-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* --- Listings Grid (Used for index, category_listings, watchlist, etc.) --- */
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive columns */
+    gap: var(--spacing-xl); /* Gap between listing cards */
+    padding: var(--padding-lg); /* Padding around the entire grid */
+}
+
+.listing-card {
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* Stack image and details */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative; /* For stretched-link */
+}
+
+.listing-card:hover {
+    transform: translateY(-3px); /* Subtle lift */
+    box-shadow: var(--shadow-card-hover);
+}
+
+.listing-image-wrapper {
+    width: 100%;
+    padding-bottom: 75%; /* 4:3 aspect ratio (height is 75% of width) */
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-bg-light-grey);
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.listing-image {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: contain; /* This makes the whole image visible */
+border-top-left-radius: var(--border-radius-md);
+border-top-right-radius: var(--border-radius-md);
+background-color: var(--color-bg-light-grey); /* Add a background color for any empty space */
+padding: var(--padding-xs); /* Optional: Add some padding if needed */
+}
+
+.listing-image.placeholder {
+    object-fit: contain; /* For placeholder, contain it */
+    padding: var(--padding-lg); /* Add some padding around placeholder */
+}
+
+.listing-details {
+    padding: var(--padding-lg);
+    flex-grow: 1; /* Allow details to fill remaining space */
+    display: flex;
+    flex-direction: column;
+}
+
+.listing-title {
+    font-size: 1.25rem; /* Larger title */
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.3;
+}
+
+.listing-title a {
+    color: var(--color-text-dark);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.listing-title a:hover {
+    color: var(--color-primary);
+}
+
+.listing-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary); /* Highlight price */
+    margin-bottom: var(--spacing-sm);
+}
+
+.listing-description {
+    font-size: 0.9rem;
+    color: var(--color-text-medium);
+    margin-bottom: var(--spacing-md);
+    flex-grow: 1; /* Pushes meta to bottom */
+}
+
+.listing-meta {
+    display: flex;
+    flex-wrap: wrap; /* Allow meta items to wrap */
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    border-top: 1px solid var(--color-border-light);
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    gap: var(--spacing-xs); /* Gap between meta items */
+}
+
+.listing-status {
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.75rem;
+}
+
+.listing-status.closed {
+    background-color: var(--color-danger);
+    color: var(--color-bg-white);
+}
+
+/* Stretched link to make whole card clickable (from Bootstrap) */
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
+
+/* Alert styling for "No Listings Found" */
+.alert {
+    margin: var(--spacing-xl) auto; /* Center the alert */
+    max-width: 600px;
+    border-radius: var(--border-radius-md);
+    border: 1px solid #cce5ff; /* Default Bootstrap info border */
+    background-color: #e2f2ff; /* Default Bootstrap info background */
+}
+.alert-heading {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+.alert-link {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+.alert-link:hover {
+    color: var(--color-primary-hover);
+}
+
+
+/* Responsive adjustments for listings grid */
+@media (max-width: 767.98px) { /* Small devices and below */
+    .listings-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        padding: var(--padding-md);
+    }
+
+    .listing-card {
+        flex-direction: row; /* Stack image and details side-by-side on smaller screens */
+        height: auto; /* Allow height to adjust */
+    }
+
+    .listing-image-wrapper {
+        width: 120px; /* Fixed width for image */
+        padding-bottom: 0; /* Remove aspect ratio padding */
+        flex-shrink: 0; /* Don't allow wrapper to shrink */
+        height: 120px; /* Fixed height */
+        border-bottom: none; /* Remove bottom border */
+        border-right: 1px solid var(--color-border-subtle); /* Add right border */
+    }
+
+    .listing-details {
+        padding: var(--padding-md);
+    }
+
+    .listing-title {
+        font-size: 1.1rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .listing-price {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .listing-description {
+        font-size: 0.85rem;
+        color: var(--color-text-medium);
+        margin-bottom: var(--spacing-sm); /* Adjusted for consistency */
+        flex-grow: 1; /* Pushes meta to bottom */
+
+        /* Add the standard property for compatibility */
+        -webkit-line-clamp: 2; /* Limit description to 2 lines */
+        line-clamp: 2; /* Add this line */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .listing-meta {
+        font-size: 0.7rem;
+        margin-top: var(--spacing-xs);
+        padding-top: var(--spacing-xs);
+        gap: var(--spacing-xs);
+    }
+}
+
+@media (max-width: 575.98px) { /* Extra small devices */
+    .listing-card {
+        flex-direction: column; /* Stack vertically again on very small screens */
+    }
+    .listing-image-wrapper {
+        width: 100%;
+        padding-bottom: 75%; /* Restore aspect ratio */
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border-subtle);
+    }
+}
+
+/* --- Form Styling (create.html, login.html, register.html) --- */
+.form-container {
+    max-width: 550px; /* Slightly wider for better field appearance */
+    margin: var(--spacing-xl) auto; /* Centered with top/bottom margin */
+    padding: var(--padding-xl);
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-card);
+}
+
+.custom-form .form-label {
+    font-weight: 600; /* Slightly bolder labels */
+    color: var(--color-text-dark);
+    margin-bottom: var(--spacing-xs); /* Space between label and input */
+    display: block; /* Ensure label is on its own line */
+}
+
+.custom-form input[type="text"],
+.custom-form input[type="number"], /* Specifically for starting_bid */
+.custom-form input[type="url"],    /* Specifically for image_url */
+.custom-form textarea,
+.custom-form select {
+    width: 100%;
+    padding: var(--padding-sm) var(--padding-md);
+    border: 1px solid var(--color-border-medium);
+    border-radius: var(--border-radius-sm);
+    font-size: 1rem; /* Standard font size */
+    background-color: var(--color-bg-white);
+    box-shadow: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-form input:focus,
+.custom-form textarea:focus,
+.custom-form select:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    outline: none;
+}
+
+.custom-form textarea {
+    min-height: 120px; /* Make description textarea larger */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Specific styling for the submit button on forms */
+.custom-form .btn-lg {
+    padding: var(--padding-sm) var(--padding-xl); /* Larger padding */
+    font-size: 1.1rem; /* Larger font size */
+    width: auto; /* Allow button to size to content */
+    display: block; /* Make it a block element to take full width */
+    margin-top: var(--spacing-xl); /* Add space above button */
+    margin-left: auto;
+    margin-right: auto; /* Center the button */
+}
+
+/* Django form errors and help text */
+.form-text.text-danger {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    color: var(--color-danger); /* Use danger color for errors */
+}
+
+.form-text.text-muted {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    color: var(--color-text-light); /* Use light text for hints */
+}
+
+/* Responsive adjustments for forms */
+@media (max-width: 767.98px) {
+    .form-container {
+        margin: var(--spacing-lg) auto;
+        padding: var(--padding-lg);
+    }
+    .custom-form .btn-lg {
+        width: 100%; /* Full width button on small screens */
+    }
+}
+
+/* --- Listing Detail Page Specific Styles (listing.html) --- */
+
+.listing-page-container {
+    max-width: 1000px; /* Increased max-width for better two-column layout */
+    margin: var(--spacing-xl) auto;
+    padding: 0 var(--padding-lg);
+}
+
+/* For the main listing card, now with two columns */
+.listing-detail-card {
+    background-color: var(--color-bg-light); /* Light background for the card */
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-lg); /* Slightly more rounded corners */
+    box-shadow: var(--shadow-sm); /* Subtle shadow */
+    overflow: hidden; /* Ensures borders/shadows are contained */
+    margin-bottom: var(--spacing-xxl);
+}
+
+/* Specific image wrapper for the detail page's main image */
+.image-wrapper.detail-page-image {
+    padding-bottom: 75%; /* Maintain 4:3 aspect ratio, good for general product images */
+    /* If you want a more cinematic/wider look for the main image, try padding-bottom: 60%; (for 16:10) or 56.25% (for 16:9) */
+    background-color: var(--color-bg-dark); /* Darker background for image area if image doesn't fill */
+    display: flex; /* Use flex to center image if it's smaller than wrapper */
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg); /* Rounded top-left, bottom-left */
+    overflow: hidden; /* Important for image within rounded corners */
+}
+
+.image-wrapper.detail-page-image .card-image {
+    object-fit: contain; /* Ensure the full image is visible */
+    width: 100%;
+    height: 100%;
+    display: block; /* Remove extra space below image */
+}
+.image-wrapper.detail-page-image .card-image.placeholder {
+    object-fit: contain; /* Ensure placeholder is contained */
+    padding: var(--padding-xl); /* Add more padding for placeholders */
+}
+
+/* Right column content styling */
+.listing-info-body {
+    padding: var(--padding-xxl); /* More generous padding inside the info column */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute content vertically */
+    height: 100%; /* Ensure it takes full height of the image column */
+}
+
+/* Styles for the full description on the detail page */
+.listing-description-long {
+    font-size: 1rem;
+    color: var(--color-text-dark);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-xl);
+    flex-grow: 1; /* Allows description to take available vertical space */
+}
+
+/* Metadata list */
+.listing-meta-list {
+    font-size: 0.95rem;
+    color: var(--color-text-medium);
+    margin-bottom: var(--spacing-xl);
+}
+
+.listing-meta-list li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.listing-meta-list li:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Price and Bid Count Section */
+.listing-price-section {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px dashed var(--color-border-light); /* Dotted line for separation */
+}
+
+.listing-price-section .current-price {
+    font-size: 2.2rem; /* Larger price font */
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 700; /* Bolder price */
+}
+
+.listing-price-section .bid-count {
+    font-size: 1rem;
+    color: var(--color-text-medium);
+}
+
+/* Bid form adjustments */
+.bid-form .input-group .form-control {
+    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm); /* Keep rounded left, straight right */
+}
+.bid-form .input-group .btn-primary {
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0; /* Straight left, rounded right */
+}
+.bid-form .input-group {
+    box-shadow: var(--shadow-xs); /* Subtle shadow around input group */
+    border-radius: var(--border-radius-sm);
+    overflow: hidden; /* Contain shadow/radius */
+}
+
+
+/* Action Buttons (Watchlist, Close Auction) */
+.action-buttons {
+    margin-top: var(--spacing-lg); /* More space above buttons */
+    padding-top: var(--spacing-lg);
+    border-top: 1px dashed var(--color-border-light); /* Dotted line for separation */
+}
+.action-buttons .btn {
+    min-width: 150px; /* Ensure buttons have a consistent minimum width */
+    text-align: center;
+}
+
+/* Closed Auction Status */
+.closed-auction-status {
+    border-color: var(--color-border-medium);
+    background-color: var(--color-bg-light-grey);
+    color: var(--color-text-dark);
+    padding: var(--padding-lg);
+    border-radius: var(--border-radius-md);
+    font-size: 0.95rem;
+    margin-top: var(--spacing-xxl) !important; /* Ensure enough space */
+    border-left: 5px solid var(--color-secondary); /* Accent border */
+}
+
+.closed-auction-status strong {
+    color: var(--color-text-dark);
+}
+
+/* Comments Section */
+.comments-card {
+    margin-bottom: var(--spacing-xxl);
+    box-shadow: var(--shadow-sm); /* Subtle shadow for comments card */
+}
+
+.comments-card .card-header {
+    background-color: var(--color-bg-primary); /* Use primary background for header */
+    color: var(--color-text-light); /* Light text on primary background */
+    border-bottom: none; /* Remove default header border */
+    padding: var(--padding-lg) var(--padding-xxl); /* More padding */
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.comments-card .card-header h4 {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.comments-card .card-body {
+    padding: var(--padding-xxl); /* More padding inside card body */
+}
+
+.comment-item {
+    border-bottom: 1px solid var(--color-border-light);
+    padding-top: var(--padding-md);
+    padding-bottom: var(--padding-md);
+}
+
+.comment-item:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.comment-meta {
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-meta strong {
+    color: var(--color-primary-dark); /* Highlight commenter username */
+    font-weight: 700;
+}
+
+.comment-timestamp {
+    font-size: 0.8rem;
+    margin-left: var(--spacing-sm);
+    white-space: nowrap; /* Prevent timestamp from wrapping */
+}
+
+.comment-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+    color: var(--color-text-dark);
+}
+
+.no-comments {
+    font-style: italic;
+    color: var(--color-text-light);
+    text-align: center;
+    padding: var(--padding-lg);
+    background-color: var(--color-bg-light-grey);
+    border-radius: var(--border-radius-md);
+    margin-top: var(--spacing-lg);
+}
+
+.login-prompt {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-medium);
+    margin-top: var(--spacing-xl);
+    padding: var(--padding-md);
+    background-color: var(--color-bg-light-grey);
+    border-radius: var(--border-radius-md);
+}
+
+.login-prompt a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+.login-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling within comments section */
+.comment-form .form-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .listing-page-container {
+        padding: 0 var(--padding-md);
+        margin-top: var(--spacing-lg);
+    }
+    .section-heading {
+        margin-bottom: var(--spacing-lg);
+    }
+    .image-wrapper.detail-page-image {
+        padding-bottom: 75%; /* More suitable for portrait images on small screens */
+        border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; /* Rounded top corners only */
+    }
+    .image-wrapper.detail-page-image .card-image {
+        padding: var(--padding-sm);
+    }
+    .listing-info-body {
+        padding: var(--padding-md);
+    }
+    .listing-description-long {
+        margin-bottom: var(--spacing-md);
+    }
+    .listing-meta-list {
+        margin-bottom: var(--spacing-md);
+    }
+    .listing-price-section {
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+    }
+    .current-price {
+        font-size: 1.8rem;
+    }
+    .bid-count {
+        font-size: 0.9rem;
+    }
+    .action-buttons {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        align-items: stretch; /* Make them full width */
+        margin-top: var(--spacing-md);
+        padding-top: var(--spacing-md);
+    }
+    .action-buttons .btn {
+        min-width: unset; /* Remove min-width on small screens */
+        width: 100%; /* Make them full width */
+        margin-bottom: var(--spacing-xs); /* Add space between stacked buttons */
+    }
+    .action-buttons .btn:last-child {
+        margin-bottom: 0;
+    }
+    .closed-auction-status {
+        font-size: 0.85rem;
+        padding: var(--padding-md);
+        margin-top: var(--spacing-lg) !important;
+    }
+    .comments-card {
+        margin-top: var(--spacing-xl);
+    }
+    .comments-card .card-header {
+        padding: var(--padding-md) var(--padding-lg);
+    }
+    .comments-card .card-header h4 {
+        font-size: 1.3rem;
+    }
+    .comments-card .card-body {
+        padding: var(--padding-lg);
+    }
+    .comment-item {
+        padding: var(--padding-sm) 0;
+    }
+    .comment-content, .comment-meta {
+        font-size: 0.85rem;
+    }
+    .alert-container {
+        padding: 0 var(--padding-md);
+    }
+}
+
+/* Base variables (ensure these are present in your styles.css) */
+:root {
+    --color-primary: #007bff; /* Example primary color */
+    --color-primary-dark: #0056b3;
+    --color-secondary: #6c757d; /* Example secondary color */
+    --color-success: #28a745;
+    --color-danger: #dc3545;
+    --color-warning: #ffc107;
+    --color-info: #17a2b8;
+
+    --color-text-dark: #343a40;
+    --color-text-medium: #6c757d;
+    --color-text-light: #f8f9fa;
+
+    --color-bg-light: #ffffff;
+    --color-bg-dark: #e9ecef;
+    --color-bg-light-grey: #f8f9fa;
+
+    --color-border-light: #dee2e6;
+    --color-border-medium: #ced4da;
+    --color-border-subtle: #e0e0e0; /* Lighter border for cards */
+
+    --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+    --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    --shadow-lg: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    --shadow-xs: 0 .05rem .1rem rgba(0,0,0,.05);
+
+    --spacing-xxs: .25rem; /* 4px */
+    --spacing-xs: .5rem;   /* 8px */
+    --spacing-sm: .75rem;  /* 12px */
+    --spacing-md: 1rem;    /* 16px */
+    --spacing-lg: 1.5rem;  /* 24px */
+    --spacing-xl: 2rem;    /* 32px */
+    --spacing-xxl: 3rem;   /* 48px */
+    --spacing-xxxl: 4rem;  /* 64px */
+
+    --padding-xxs: .25rem;
+    --padding-xs: .5rem;
+    --padding-sm: .75rem;
+    --padding-md: 1rem;
+    --padding-lg: 1.5rem;
+    --padding-xl: 2rem;
+    --padding-xxl: 2.5rem;
+    --padding-xxxl: 3rem;
+
+    --border-radius-sm: .25rem;
+    --border-radius-md: .5rem;
+    --border-radius-lg: .75rem;
+    --border-radius-xl: 1rem;
+}
+
+/* Ensure custom-card base styles are correct for this to work */
+.custom-card {
+    border: none; /* Rely on custom borders */
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-bg-light);
+    box-shadow: var(--shadow-sm); /* Default shadow for all custom cards */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.custom-card:hover {
+    box-shadow: var(--shadow-md); /* Slightly more prominent shadow on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Image wrapper (general for all image containers, detail page will override some) */
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* 4:3 Aspect Ratio */
+    overflow: hidden;
+    background-color: var(--color-bg-dark); /* Placeholder background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Default to cover for smaller grid images */
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-image.placeholder {
+    object-fit: contain; /* Ensure placeholder is contained */
+    padding: var(--padding-md); /* Add some padding around placeholder */
+}
+
+.comments-card .card-header {
+    background-color: var(--color-bg-primary);
+    color: #000000; /* Example: Gold color */
+    /* Or a more subdued color that contrasts well with your --color-bg-primary */
+    /* color: #e0e0e0; */ /* Example: Light gray */
+    border-bottom: none;
+    padding: var(--padding-lg) var(--padding-xxl);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.comments-card .card-header h4 {
+    /* You don't usually need to set color here unless you want it different from parent */
+    /* For example, if you wanted the h4 specifically to be different from other text in the header */
+    /* color: limegreen; */
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* --- Authentication Pages (Login/Register) Specific Styles --- */
+
+.auth-page-container {
+    display: flex; /* Use flexbox to center content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: calc(100vh - var(--header-height, 60px) - var(--footer-height, 40px)); /* Adjust min-height to fill screen minus header/footer */
+    padding: var(--spacing-xxl) var(--padding-lg); /* Generous padding */
+    background-color: var(--color-bg-dark); /* Subtle background for auth pages */
+}
+
+.auth-card {
+    max-width: 450px; /* Max width for the login/register card */
+    width: 100%; /* Ensure it takes full width up to max-width */
+    margin: auto; /* Center the card horizontally if not using flex */
+    border-radius: var(--border-radius-xl); /* More rounded corners for auth card */
+    overflow: hidden; /* Ensure shadow/border effects are contained */
+    box-shadow: var(--shadow-md); /* Slightly stronger shadow for auth card */
+}
+
+.auth-header {
+    background-color: var(--color-primary); /* Use primary color for auth header */
+    color: var(--color-text-light); /* Light text */
+    padding: var(--padding-xl) var(--padding-xxl); /* More padding */
+    border-bottom: none; /* Remove default border */
+    text-align: center;
+}
+
+.section-heading-small {
+    font-size: 1.8rem; /* Smaller heading for inside cards */
+    font-weight: 700;
+    margin-bottom: 0;
+    color: inherit; /* Inherit color from parent (auth-header) */
+}
+
+.auth-body {
+    padding: var(--padding-xxl); /* Generous padding inside card body */
+    background-color: var(--color-bg-light); /* White background for form area */
+}
+
+.auth-redirect-text {
+    font-size: 0.9rem;
+    color: var(--color-text-medium);
+}
+
+.auth-redirect-text a {
+    font-weight: 600;
+}
+
+
+/* General form control styling for input fields within forms */
+.form-control {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border-medium);
+    padding: var(--padding-sm) var(--padding-md);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text-dark);
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Primary color focus ring */
+    outline: 0;
+}
+
+/* For buttons */
+.btn {
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    padding: var(--padding-sm) var(--padding-md);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-text-light);
+}
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* Adjustments for alerts */
+.alert {
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9rem;
+    padding: var(--padding-md);
+}
+
+/* Ensure your existing custom-card styles are comprehensive */
+.custom-card {
+    border: none; /* Remove default Bootstrap border */
+    border-radius: var(--border-radius-md); /* Default radius for generic cards */
+    background-color: var(--color-bg-light);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.custom-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 575.98px) { /* Adjust for extra small screens */
+    .auth-page-container {
+        padding: var(--spacing-lg) var(--padding-md);
+    }
+    .auth-card {
+        border-radius: var(--border-radius-lg); /* Slightly less rounded on very small screens if desired */
+    }
+    .auth-header {
+        padding: var(--padding-md);
+    }
+    .section-heading-small {
+        font-size: 1.5rem;
+    }
+    .auth-body {
+        padding: var(--padding-lg);
+    }
+    .auth-redirect-text {
+        font-size: 0.85rem;
+    }
+}
+
+/* --- Global Variables (ensure these exist and are configured to your theme) --- */
+:root {
+    --color-primary: #2c3e50; /* Bootstrap blue */
+    --color-primary-dark: #0056b3; /* Darker blue for hover */
+    --color-secondary: #6c757d; /* Grey */
+    --color-text-dark: #343a40; /* Dark grey for general text */
+    --color-text-medium: #6c757d; /* Medium grey for muted text */
+    --color-text-light: #ffffff; /* White for light backgrounds */
+    --color-bg-light: #ffffff; /* White background */
+    --color-bg-dark: #f8f9fa; /* Light grey background */
+    --color-border-light: #f0f0f0;
+    --color-border-medium: #ced4da;
+    --color-border-dark: #dee2e6;
+
+    --color-navbar-dark: #2c3e50;
+
+    --spacing-xxs: 4px;
+    --spacing-xs: 8px;
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 20px;
+    --spacing-xl: 24px;
+    --spacing-xxl: 32px;
+
+    --padding-sm: 0.5rem;   /* 8px */
+    --padding-md: 0.75rem;  /* 12px */
+    --padding-lg: 1rem;     /* 16px */
+    --padding-xl: 1.25rem;  /* 20px */
+    --padding-xxl: 1.5rem;  /* 24px */
+
+    --border-radius-sm: 0.25rem; /* 4px */
+    --border-radius-md: 0.5rem;  /* 8px */
+    --border-radius-lg: 1rem;    /* 16px */
+    --border-radius-xl: 1.5rem;  /* 24px */
+    --border-radius-pill: 50rem; /* For full rounded ends */
+
+    --shadow-sm: 0 .125rem .25rem rgba(0,0,0,.075);
+    --shadow-md: 0 .5rem 1rem rgba(0,0,0,.15);
+}
+
+/* --- App Header Styles (layout.html) --- */
+.app-header {
+    background-color: var(--color-bg-light); /* White background for header */
+    border-bottom: 1px solid var(--color-border-light);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-sm) 0;
+}
+
+.header-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--padding-lg); /* Adjust padding for top row */
+    max-width: 1200px; /* Limit header width */
+    margin: 0 auto;
+}
+
+.logo {
+    height: 40px; /* Adjust logo size */
+    width: auto;
+}
+
+/* --- Search Bar with Internal Icon --- */
+.search-form {
+    flex-grow: 1; /* Allows the form to take available space */
+    max-width: 400px; /* Limit search bar width */
+    margin: 0 var(--spacing-lg); /* Margin around the search bar */
+    position: relative; /* Essential for containing the absolutely positioned icon */
+}
+
+.search-input-container {
+    position: relative; /* Establish positioning context for the icon */
+    width: 100%; /* Take full width of its parent */
+}
+
+.search-input {
+    width: 100%;
+    padding-left: var(--spacing-xxl); /* Make space for the icon on the left */
+    padding-right: var(--spacing-md); /* Standard right padding */
+    border-radius: var(--border-radius-pill); /* Rounded search bar */
+    height: 40px; /* Consistent height */
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border-medium);
+    transition: all 0.2s ease-in-out;
+}
+
+.search-input::placeholder {
+    color: var(--color-text-medium);
+    opacity: 0.8;
+}
+
+.search-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb, 0, 123, 255), .25); /* Primary color focus ring */
+    outline: none;
+}
+
+.search-icon-inside {
+    position: absolute;
+    left: var(--spacing-md); /* Position from the left edge of the input container */
+    top: 50%; /* Vertically center */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+    font-size: 1rem; /* Adjust icon size */
+    color: var(--color-text-medium); /* Muted color for the icon */
+    pointer-events: none; /* Allows clicks to pass through to the input */
+    z-index: 2; /* Ensure icon is above input if needed */
+}
+
+/* --- Auth Links (Login/Register/Logout) --- */
+.auth-links {
+    display: flex;
+    align-items: center;
+}
+
+.auth-links .username {
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
+}
+
+.auth-links .username strong {
+    color: var(--color-primary-dark);
+}
+
+.auth-links .btn {
+    border-radius: var(--border-radius-sm);
+    font-size: 0.85rem;
+    padding: var(--padding-xs) var(--padding-sm);
+    font-weight: 500;
+}
+
+/* --- Header Bottom Row (Navigation) --- */
+.header-bottom-row {
+    background-color: var(--color-primary); /* Primary color background */
+    padding: var(--spacing-xs) var(--padding-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center navigation items */
+}
+
+.main-nav {
+    display: flex;
+    gap: var(--spacing-xxl); /* Space between nav links */
+}
+
+.main-nav a {
+    color: var(--color-text-light); /* White text */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: var(--spacing-xs) 0; /* Vertical padding */
+    position: relative;
+    transition: color 0.2s ease-in-out;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--color-text-light);
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.2s ease-in-out;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: var(--color-text-light); /* Keep text color white on hover/active */
+}
+
+.main-nav a:hover::after,
+.main-nav a.active::after {
+    width: 100%; /* Underline effect on hover/active */
+}
+
+/* --- Sidebar (Offcanvas and Desktop) --- */
+.sidebar-wrapper {
+    background-color: var(--color-bg-light);
+    border-right: 1px solid var(--color-border-light);
+    padding: var(--spacing-xl);
+    height: calc(100vh - var(--header-height, 120px)); /* Adjust based on your header height */
+    overflow-y: auto; /* Enable scrolling for many categories */
+}
+
+.sidebar-heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--spacing-lg);
+}
+
+.list-group-item.list-group-item-action {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-xs);
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.list-group-item.list-group-item-action:hover {
+    background-color: var(--color-bg-dark);
+    color: var(--color-primary-dark);
+}
+
+.list-group-item.list-group-item-action .caret {
+    transition: transform 0.2s ease-in-out;
+}
+
+.list-group-item.list-group-item-action[aria-expanded="true"] .caret {
+    transform: rotate(180deg);
+}
+
+.subcategory-list {
+    margin-top: var(--spacing-xs);
+    margin-left: var(--spacing-lg); /* Indent subcategories */
+    border-left: 2px solid var(--color-border-light);
+    padding-left: var(--spacing-xs);
+}
+
+.subcategory-link {
+    display: block;
+    padding: var(--spacing-xxs) var(--spacing-sm);
+    color: var(--color-text-medium);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.subcategory-link:hover {
+    color: var(--color-primary);
+}
+
+/* --- Main Content Area --- */
+.main-content-area {
+    padding: var(--spacing-xl);
+    padding-top: var(--spacing-xxl); /* More top padding for content */
+}
+
+/* Responsive adjustments for header */
+@media (max-width: 991.98px) { /* Medium devices (tablets, 768px and up) */
+    .header-top-row {
+        flex-wrap: wrap; /* Allow items to wrap */
+        justify-content: center;
+        text-align: center;
+    }
+    .logo {
+        margin-bottom: var(--spacing-md);
+    }
+    .search-form {
+        order: 3; /* Move search form below logo and auth links */
+        width: 100%;
+        margin: var(--spacing-md) 0;
+        max-width: 500px; /* Limit width even when full width */
+    }
+    .auth-links {
+        order: 2;
+        margin-bottom: var(--spacing-md);
+    }
+    .main-nav {
+        display: none; /* Hide main nav on smaller screens, use offcanvas */
+    }
+    .header-bottom-row {
+        justify-content: flex-start; /* Align toggle button to start */
+    }
+}
+
+@media (max-width: 575.98px) { /* Extra small devices (phones) */
+    .header-top-row {
+        padding: var(--spacing-md) var(--padding-sm);
+    }
+    .logo {
+        height: 35px;
+    }
+    .search-input {
+        height: 35px;
+        font-size: 0.9rem;
+        padding-left: var(--spacing-xl);
+    }
+    .search-icon-inside {
+        font-size: 0.9rem;
+        left: var(--spacing-sm);
+    }
+    .auth-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+    .auth-links .username {
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+    }
+    .auth-links .btn {
+        width: 48%; /* Make buttons take half width */
+    }
+    .auth-links .btn-outline-primary {
+        margin-right: var(--spacing-sm) !important; /* Adjust margin if using w-50 */
+    }
+}
+
+/* --- Watchlist Page Specific Styles --- */
+.watchlist-container {
+    padding: var(--padding-lg); /* General padding for the content block */
+    max-width: 900px; /* Limit width for readability */
+    margin: var(--spacing-xl) auto; /* Center the container */
+}
+
+.watchlist-item {
+    display: flex;
+    align-items: flex-start; /* Align image and text at the top */
+    text-decoration: none;
+    color: var(--color-text-dark); /* Default text color for the item */
+    padding: var(--padding-md);
+    border-bottom: 1px solid var(--color-border-light); /* Light separator */
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.watchlist-item:last-child {
+    border-bottom: none; /* No border for the last item in the list */
+}
+
+.watchlist-item:hover {
+    background-color: var(--color-bg-hover); /* Light background on hover */
+}
+
+.watchlist-item-image-wrapper {
+    width: 100px;
+    height: 75px;
+    flex-shrink: 0; /* Prevent the image wrapper from shrinking */
+    margin-right: var(--spacing-lg); /* Space between image and text */
+    border-radius: var(--border-radius-sm); /* Slightly rounded corners for the image container */
+    overflow: hidden; /* Ensure image respects border-radius */
+    border: 1px solid var(--color-border-subtle); /* Subtle border around the image/placeholder */
+    background-color: var(--color-bg-light-grey); /* Background for images or placeholders */
+    display: flex; /* For centering 'No Image' text */
+    align-items: center;
+    justify-content: center;
+}
+
+.watchlist-item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire area without distortion */
+    display: block; /* Remove any extra space below the image */
+}
+
+.watchlist-item-image.placeholder {
+    object-fit: contain; /* Ensure placeholder text/icon is contained */
+    color: var(--color-text-placeholder); /* Muted color for placeholder text */
+    font-size: 0.9em;
+    padding: var(--padding-xs); /* Small padding for the 'No Image' text */
+}
+
+.watchlist-item-info {
+    flex-grow: 1; /* Allow the info section to take up available space */
+}
+
+.watchlist-item-title {
+    margin: 0 0 var(--spacing-xs); /* Small margin below the title */
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-text-dark); /* Dark text for the title */
+}
+
+.watchlist-item-description {
+    margin: 0; /* No external margin for the description */
+    font-size: 0.9rem;
+    color: var(--color-text-medium); /* Muted text for description */
+}
+
+/* Style for the "No items in watchlist" message */
+.watchlist-empty-message {
+    padding: var(--padding-md);
+    background-color: #d9edf7; /* Standard Bootstrap info background color */
+    color: #31708f; /* Standard Bootstrap info text color */
+    border-radius: var(--border-radius-sm);
+    border: 1px solid #bce8f1; /* Standard Bootstrap info border color */
+    margin-top: var(--spacing-xl); /* Add some space below the heading */
+}
+
+/* Responsive adjustments for watchlist */
+@media (max-width: 767.98px) { /* Small devices and below */
+    .watchlist-container {
+        padding: var(--padding-md);
+        margin: var(--spacing-lg) auto;
+    }
+    .watchlist-item-image-wrapper {
+        width: 80px;
+        height: 60px;
+        margin-right: var(--spacing-md);
+    }
+    .watchlist-item-title {
+        font-size: 1.1rem;
+    }
+    .watchlist-item-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* --- Authentication Pages Specific Styles (login, register) --- */
+.auth-page-container {
+    max-width: 480px; /* Slightly narrower than general forms for login/register */
+    margin: var(--spacing-xxl) auto; /* Centered with top/bottom margin */
+    padding: 0 var(--padding-lg); /* Add padding on sides for smaller screens */
+}
+
+.auth-card {
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden; /* Ensure content respects border-radius */
+}
+
+.auth-header {
+    background-color: var(--color-bg-light-grey);
+    padding: var(--padding-lg) var(--padding-xl); /* Generous padding */
+    border-bottom: 1px solid var(--color-border-subtle);
+    text-align: center;
+}
+
+.section-heading-small {
+    font-size: 1.6rem; /* Smaller than main section-heading */
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 0; /* No margin below heading in card header */
+}
+
+.auth-body {
+    padding: var(--padding-xl); /* Consistent padding inside body */
+}
+
+/* Specific adjustments for form elements within auth forms */
+.auth-body .form-control {
+    padding: var(--padding-md); /* Slightly larger input fields */
+    font-size: 1rem;
+}
+
+.auth-body .btn.w-100 {
+    font-size: 1.1rem;
+    padding: var(--padding-md) var(--padding-lg);
+    margin-top: var(--spacing-md); /* Space above button */
+}
+
+.auth-redirect-text {
+    font-size: 0.95rem;
+    color: var(--color-text-medium);
+    margin-top: var(--spacing-lg); /* Space above redirect text */
+}
+
+.auth-redirect-text .link-primary {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.auth-redirect-text .link-primary:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+/* Adjustments for Bootstrap alerts within auth forms */
+.auth-body .alert.alert-danger {
+    margin-bottom: var(--spacing-md); /* Adjust margin for alerts */
+    font-size: 0.9rem;
+    padding: var(--padding-sm) var(--padding-md);
+}
+
+/* Responsive adjustments for auth pages */
+@media (max-width: 767.98px) {
+    .auth-page-container {
+        margin: var(--spacing-lg) auto;
+        padding: 0 var(--padding-md);
+    }
+    .auth-card {
+        border-radius: var(--border-radius-md); /* Standard border radius */
+    }
+    .auth-header {
+        padding: var(--padding-md);
+    }
+    .section-heading-small {
+        font-size: 1.4rem;
+    }
+    .auth-body {
+        padding: var(--padding-lg);
+    }
+    .auth-body .btn.w-100 {
+        padding: var(--padding-sm) var(--padding-md);
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .auth-page-container {
+        max-width: 100%; /* Full width on very small screens */
+        padding: 0 var(--spacing-md);
+    }
+    .auth-card {
+        border-radius: 0; /* Remove border-radius on very small screens for edge-to-edge look */
+        box-shadow: none; /* Remove shadow */
+        border: none; /* Remove border */
+    }
+}
+
+/* In your styles.css */
+
+/* Ensure search-input-container allows for absolute positioning */
+.search-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    /* Increased padding-left to push text away from the icon */
+    padding-left: 44px; /* Sufficient space for icon (16px) + gap (12px) + icon's left offset (16px) */
+    padding-right: var(--padding-md); /* Keep existing right padding */
+    height: 40px; /* Example height, adjust as needed */
+    border-radius: var(--border-radius-pill); /* Fully rounded corners */
+    border: 1px solid var(--color-border-medium);
+    background-color: var(--color-bg-light-grey);
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.search-input::placeholder {
+    color: var(--color-text-placeholder);
+}
+
+.search-input:focus {
+    border-color: var(--color-border-focus);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    background-color: var(--color-bg-white);
+}
+
+.search-icon-inside {
+    position: absolute;
+    left: var(--spacing-md); /* Position the icon 16px from the left edge */
+    top: 50%;
+    transform: translateY(-50%);
+    /* Changed color to white as requested */
+    color: rgb(71, 71, 71); 
+    font-size: 1rem;
+    pointer-events: none; /* Allows clicks to pass through to the input */
+}
+
+/* Responsive adjustments */
+@media (max-width: 575.98px) {
+    .search-input {
+        height: 35px;
+        font-size: 0.9rem;
+        /* Adjusted padding for smaller screens to ensure proper spacing */
+        padding-left: 36px; 
+    }
+    .search-icon-inside {
+        font-size: 0.9rem;
+        left: var(--spacing-sm); /* Position the icon 12px from the left edge on small screens */
+    }
+}
+

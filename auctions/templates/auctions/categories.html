@@ -1,0 +1,44 @@
+{% extends "auctions/layout.html" %}
+{% load static %} {# Load static files for default image if needed #}
+
+{% block title %}Categories{% endblock %}
+
+{% block section_heading %}All Listing Categories{% endblock %}
+
+{% block body %}
+    <div class="category-grid">
+        {% for category in categories %}
+            <div class="category-card">
+                <div class="card-header">
+                    <i class="fas fa-folder category-icon"></i> {# Example icon #}
+                    <h3 class="category-name">{{ category.name }}</h3>
+                </div>
+                <div class="card-body">
+                    {% if category.subcategories.exists %}
+                        <div class="subcategory-grid"> {# Use a grid for subcategories #}
+                            {% for sub in category.subcategories.all %}
+                                <a href="{% url 'category_listings' sub.name %}" class="subcategory-item-link">
+                                    <div class="subcategory-image-wrapper">
+                                        {% if sub.image %}
+                                            <img src="{{ sub.image.url }}" alt="{{ sub.name }}" class="subcategory-image">
+                                        {% else %}
+                                            {# Provide a default placeholder image if no image is uploaded #}
+                                            <img src="{% static 'auctions/placeholder_subcat.png' %}" alt="No image for {{ sub.name }}" class="subcategory-image placeholder">
+                                        {% endif %}
+                                    </div>
+                                    <span class="subcategory-item-name">{{ sub.name }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="no-subcategories-msg">No specific subcategories for this main category yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info" role="alert">
+                No categories available at the moment.
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

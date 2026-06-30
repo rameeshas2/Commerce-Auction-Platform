@@ -1,0 +1,153 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block title %}
+    {{ listing.title }}
+{% endblock %}
+
+{% block body %}
+<div class="listing-page-container"> {# Wrapper for overall page content #}
+
+    <h2 class="section-heading">{{ listing.title }}</h2> {# Page Title #}
+
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row custom-card listing-detail-card g-0"> {# Use Bootstrap row for two-column layout, g-0 removes gutter #}
+
+        {# Left Column: Image (Takes full width on small screens, 7 columns on medium/large) #}
+        <div class="col-12 col-md-7">
+            <div class="image-wrapper detail-page-image"> {# Use a specific class for detail page image #}
+                {% if listing.image_url %}
+                    <img src="{{ listing.image_url }}" alt="{{ listing.title }}" class="card-image">
+                {% else %}
+                    <img src="{% static 'auctions/no_image_listing.png' %}" alt="No image available" class="card-image placeholder">
+                {% endif %}
+            </div>
+        </div>
+
+        {# Right Column: Details & Actions (Takes full width on small screens, 5 columns on medium/large) #}
+        <div class="col-12 col-md-5">
+            <div class="card-body listing-info-body"> {# Added a specific class for card-body here #}
+                <p class="listing-description-long">{{ listing.description }}</p>
+
+                <ul class="list-unstyled listing-meta-list"> {# Use an unordered list for metadata #}
+                    <li><strong>Category:</strong>
+                        {% if listing.category %}
+                            <a href="{% url 'category_listings' listing.category.name %}" class="link-primary">
+                                {{ listing.category.category.name }} > {{ listing.category.name }}
+                            </a>
+                        {% else %}
+                            No Category
+                        {% endif %}
+                    </li>
+                    <li><strong>Created by:</strong> <span class="text-muted">{{ listing.owner.username }}</span></li>
+                    <li><strong>Created on:</strong> <span class="text-muted">{{ listing.created_at|date:"M d, Y H:i" }}</span></li>
+                </ul>
+
+                <hr class="my-3">
+
+                <div class="listing-price-section">
+                    <h5 class="current-price">Current Price: <strong>${{ listing.current_price|floatformat:2 }}</strong></h5>
+                    <p class="bid-count">{{ bids_count }} bid{{ bids_count|pluralize }}</p>
+                </div>
+
+                {% if user.is_authenticated %}
+                    {% if user != listing.owner and not listing.active %} {# Changed to listing.active #}
+                        <div class="alert alert-info mt-3" role="alert">This auction is closed for bidding.</div>
+                    {% elif user != listing.owner and listing.active %}
+                        <form action="{% url 'place_bid' listing.id %}" method="post" class="mt-3 bid-form">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <input type="number" name="amount" class="form-control" placeholder="Enter your bid" min="{{ listing.current_price|add:1 }}" required aria-label="Bid amount">
+                                <button type="submit" class="btn btn-primary">Place Bid</button>
+                            </div>
+                        </form>
+                    {% endif %}
+
+                    <div class="action-buttons mt-3 d-flex flex-wrap gap-2">
+                        {% if in_watchlist %}
+                            <a href="{% url 'remove_from_watchlist' listing.id %}" class="btn btn-outline-danger btn-sm">Remove from Watchlist</a>
+                        {% else %}
+                            <a href="{% url 'add_to_watchlist' listing.id %}" class="btn btn-outline-primary btn-sm">Add to Watchlist</a>
+                        {% endif %}
+
+                        {% if user == listing.owner and listing.active %} {# Changed to listing.active #}
+                            <form action="{% url 'close_auction' listing.id %}" method="post" class="m-0">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning btn-sm">Close Auction</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if not listing.active %} {# Check listing.active for closed status #}
+                    <div class="alert alert-secondary mt-4 closed-auction-status">
+                        <strong>This auction is closed.</strong><br>
+                        {% if listing.winner %}
+                            Winner: <span class="fw-bold">{{ listing.winner.username }}</span> with a bid of ${{ listing.current_price|floatformat:2 }}
+                        {% else %}
+                            No winner. No valid bids were placed.
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-card mt-5 comments-card">
+        <div class="card-header">
+            <h4>Comments</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush mb-3">
+                {% for comment in comments %}
+                    <li class="list-group-item comment-item">
+                        <div class="comment-meta">
+                            <strong>{{ comment.commenter.username }}</strong>
+                            <span class="text-muted comment-timestamp"> at {{ comment.timestamp|date:"M d, Y H:i" }}</span>
+                        </div>
+                        <p class="comment-content">{{ comment.content }}</p>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item no-comments">No comments yet.</li>
+                {% endfor %}
+            </ul>
+
+            {% if user.is_authenticated %}
+                <h5 class="mb-3">Leave a Comment</h5>
+                <form action="{% url 'add_comment' listing.id %}" method="post" class="comment-form">
+                    {% csrf_token %}
+                    {# Manual rendering for the 'content' field to apply Bootstrap's form-control class #}
+                    <div class="mb-3">
+                        <label for="{{ comment_form.content.id_for_label }}" class="form-label">{{ comment_form.content.label }}</label>
+                        <textarea name="{{ comment_form.content.name }}"
+                                  id="{{ comment_form.content.id_for_label }}"
+                                  class="form-control"
+                                  rows="4" {# Adjust rows for desired height #}
+                                  placeholder="Write your comment here..."
+                                  {% if comment_form.content.field.required %}required{% endif %}
+                        >{{ comment_form.content.value|default_if_none:'' }}</textarea>
+                        {% if comment_form.content.help_text %}
+                            <div class="form-text text-muted">{{ comment_form.content.help_text }}</div>
+                        {% endif %}
+                        {% for error in comment_form.content.errors %}
+                            <div class="form-text text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+                </form>
+            {% else %}
+                <p class="login-prompt"><a href="{% url 'login' %}">Log in</a> to post a comment.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

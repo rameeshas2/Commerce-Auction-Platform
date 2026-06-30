@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}My Watchlist{% endblock %}
+
+{% block body %}
+    <div class="watchlist-container">
+        <h2>My Watchlist</h2>
+
+        {% if items %}
+            {% for watch in items %}
+                <a href="{% url 'listing' watch.listing.id %}" class="watchlist-item">
+                    <div class="watchlist-item-image-wrapper">
+                        {% if watch.listing.image_url %}
+                            <img src="{{ watch.listing.image_url }}" alt="{{ watch.listing.title }} image" class="watchlist-item-image">
+                        {% else %}
+                            <div class="watchlist-item-image placeholder">
+                                No Image
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="watchlist-item-info">
+                        <h5 class="watchlist-item-title">{{ watch.listing.title }}</h5>
+                        <p class="watchlist-item-description">{{ watch.listing.description|truncatechars:100 }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class="watchlist-empty-message">
+                You have no items in your watchlist.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
