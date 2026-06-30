@@ -371,8 +371,6 @@ pytest tests/test_watchlist.py
 The automated tests simulate real user interactions within a web browser to verify application behavior, ensuring that authentication, bidding, listing creation, and watchlist functionality work as expected.
 
 
-
-```markdown
 ## Home Page
 
 <img width="1918" height="884" alt="image" src="https://github.com/user-attachments/assets/d8418ff0-f85d-49d3-b596-591a16e2fa6d" />
